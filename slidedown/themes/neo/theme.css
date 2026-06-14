@@ -1,0 +1,12 @@
+/* neo — a real full-bleed backdrop image (themes/neo/assets/neo-bg.png, copied into the
+   deck) is the signature: a pastel pink→lavender→periwinkle gradient with soft flowing
+   waves. LIGHT slides layer a faint center scrim over the image for text legibility; DARK
+   slides set --waves/--scrim to none (tokens.yaml) and fall back to the deep-indigo
+   gradient surface. The palette, rounded cards and violet-tinted shadows come from tokens. */
+
+.slide {
+  background: var(--scrim), var(--waves) center / cover no-repeat, var(--color-surface);
+}
+
+/* keep content above the backdrop layers */
+.slide .inner { position: relative; z-index: 1; }

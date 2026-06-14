@@ -69,6 +69,7 @@ comment for a one-line descriptor):
   - `aurora` — violet, clean and modern (light + dark)
   - `verde` — brand green, bordered cards (light + dark)
   - `falling-star` — Van Gogh starry-night, full-bleed, custom font (dramatic)
+  - `neo` — pastel pink→lavender→periwinkle backdrop image (light) / deep indigo (dark); violet accent, soft and modern
 - **Duration** — minutes, 5 → 60. Offer `5`, `10`, `15`, `30` and let the user pick *Other* for `45`/`60` or an exact figure. This sets the slide budget (Step 3).
 
 ### Logo — from CONTEXT, never a strict input

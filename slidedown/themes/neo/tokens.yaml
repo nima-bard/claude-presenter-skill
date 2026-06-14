@@ -1,0 +1,55 @@
+# neo — a soft "silk" theme built on a real full-bleed backdrop image: a pastel
+# pink→lavender→periwinkle gradient with gentle flowing waves (themes/neo/assets/neo-bg.png,
+# bundled into the deck). LIGHT slides show the image with a faint center scrim for text
+# legibility; DARK slides drop the image for a deep-indigo gradient surface so they stay
+# dark. The backdrop (--waves) and scrim (--scrim) are per-mode tokens, used by theme.css.
+font:
+  base: "'Manrope', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif"
+  mono: "ui-monospace, 'SFMono-Regular', Consolas, monospace"
+gradient:
+  accent: "linear-gradient(135deg, #e87ab0 0%, #a071e0 52%, #7350e0 100%)"
+radius:
+  card: "26px"
+  pill: "999px"
+  chip: "14px"
+space:
+  line: "1.55"
+  gap: "22px"
+
+color:                # mode-invariant brand / semantic
+  accent: "#7350e0"   # violet — logo / links / icons / numbers (white text reads)
+  accent-2: "#e87ab0" # soft rose-pink companion (the backdrop's pink)
+  on-accent: "#ffffff"
+  ok: "#3fb59a"       # soft teal-mint
+  warn: "#e9a94e"     # soft amber
+  info: "#5b8cf0"     # sky blue
+  danger: "#ec6a8a"   # soft rose-red, on-palette
+  deep: "#241c4d"     # always-dark indigo (panels, code, formula)
+
+light:                # the pastel backdrop image + a faint center scrim for legibility
+  waves: "url('assets/neo-bg.png')"
+  scrim: "radial-gradient(120% 95% at 50% 42%, rgba(249,247,253,.50) 0%, rgba(249,247,253,0) 58%)"
+  color:
+    surface: "#efeaf8"   # pale lavender fallback (the image covers it)
+    ink: "#332e59"
+    muted: "#7d77a3"
+    line: "#e7e1f1"
+    card: "#ffffff"
+  shadow:
+    card: "0 26px 60px -24px rgba(95,75,200,.40)"
+    sm: "0 12px 30px -16px rgba(95,75,200,.30)"
+
+dark:                 # no image — a deep midnight blue-indigo base with soft pink + periwinkle
+                      # corner glows (carried by --scrim), echoing the light backdrop's hues.
+                      # Cooler, darker and glowier than aurora's flat warm-violet night.
+  waves: "none"
+  scrim: "radial-gradient(72% 52% at 82% 2%, rgba(232,122,176,.22) 0%, rgba(232,122,176,0) 55%), radial-gradient(66% 66% at 6% 104%, rgba(125,108,236,.30) 0%, rgba(125,108,236,0) 60%)"
+  color:
+    surface: "linear-gradient(150deg, #0e1330 0%, #131a42 55%, #0d1a3a 100%)"
+    ink: "#eef1fb"
+    muted: "#99a1ca"
+    line: "rgba(255,255,255,.10)"
+    card: "#1c2346"
+  shadow:
+    card: "0 26px 56px -22px rgba(0,0,0,.62)"
+    sm: "0 12px 28px -16px rgba(0,0,0,.52)"

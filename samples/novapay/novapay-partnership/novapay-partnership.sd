@@ -1,10 +1,9 @@
 ---
-title:      "NovaPay × GlobalFreight Connect"
-theme: aurora
-accent: "#45f3a6"
-transition: slide
+title: "NovaPay × GlobalFreight Connect"
+theme: neo
+transition: fade
 duration:   15
-brand:      NovaPay
+brand: NovaPay
 logo:
   light:    ./assets/novapay-light.svg
   dark:     ./assets/novapay-dark.svg

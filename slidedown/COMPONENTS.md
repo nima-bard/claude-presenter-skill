@@ -14,8 +14,8 @@ with its own props — there is no shared item or `|`-field syntax (manifesto
 > **All 46 components below are implemented** — one
 > `components/<name>/component.yaml` each — plus the `@slide` / `@subtitle` /
 > `@note` / `@instruction` directives. `examples/demo.sd` exercises every one,
-> and all three themes (`aurora`, `verde`, `falling-star`) render them from token
-> values alone.
+> and all four themes (`aurora`, `verde`, `falling-star`, `neo`) render them from
+> token values alone.
 
 ---
 

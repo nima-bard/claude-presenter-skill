@@ -325,9 +325,11 @@ A [text color:accent weight:semibold]forgiving[/text] language: write `.sd`, com
 
 ## 11. Status & open questions
 
-Implemented: the five-stage compiler; the token schema + three themes — `aurora`,
-`verde`, and `falling-star` (a painterly night/dawn theme with a bundled backdrop
-image and handwriting font) — each with **light & dark modes**; all 46 components
+Implemented: the five-stage compiler; the token schema + four themes — `aurora`,
+`verde`, `falling-star` (a painterly night/dawn theme with a bundled backdrop image
+and handwriting font), and `neo` (a soft "silk" theme on a bundled pastel backdrop
+image — pink→lavender→periwinkle on light slides, a deep-indigo gradient on dark)
+— each with **light & dark modes**; all 46 components
 (see [`COMPONENTS.md`](COMPONENTS.md)); the directives
 `@slide`/`@subtitle`/`@note`/`@instruction`; the shared props `size`/`align`/`valign`
 plus `mode:dark|light` (flip one component to the other palette); an `animated` flag
