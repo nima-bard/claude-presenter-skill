@@ -14,7 +14,7 @@ compiler stays **zero-dependency plain Node** — no packages.
 1. Create `slidedown/components/<name>/component.yaml` — `name`, optional `aliases`, a
    `content` mode, `props`, `children`, a logicless `template`, and `styles` (CSS that
    reads token custom properties like `var(--color-accent)`; namespace your classes).
-2. Add it to `slidedown/examples/demo.sd` and document it in `slidedown/COMPONENTS.md`.
+2. Add it to `samples/demo/demo.sd` and document it in `slidedown/COMPONENTS.md`.
 3. Rebuild and check both a light and a `dark` slide.
 
 Read a few existing manifests first — `cards`, `flow`, `callout` are good models.
@@ -28,11 +28,11 @@ Drop `slidedown/themes/<name>/tokens.yaml` providing every token in
 ## Build & test
 
 ```bash
-node slidedown/compiler/slidedown.js slidedown/examples/demo.sd
+node slidedown/compiler/slidedown.js samples/demo/demo.sd
 ```
 
 The build must finish with `built N slides` at **exit 0, no errors, and no actionable
-notes** (e.g. unknown icons or missing assets). `examples/demo.sd` exercises every
+notes** (e.g. unknown icons or missing assets). `samples/demo/demo.sd` exercises every
 component, so it doubles as the regression check.
 
 ## Docs

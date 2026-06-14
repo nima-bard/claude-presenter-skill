@@ -7,7 +7,16 @@
 # (this is what the installed `slidedown` command points at).
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Follow symlinks to the real script: the installed `slidedown` is a symlink
+# into the repo (~/.local/bin/slidedown), so BASH_SOURCE must be resolved or
+# REPO_ROOT lands next to the symlink instead of in the clone.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  case "$SOURCE" in /*) ;; *) SOURCE="$DIR/$SOURCE" ;; esac  # relative → absolute
+done
+SCRIPT_DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 COMPILER="$REPO_ROOT/slidedown/compiler/slidedown.js"
 

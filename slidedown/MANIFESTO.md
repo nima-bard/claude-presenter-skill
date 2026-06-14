@@ -337,8 +337,8 @@ for `card`/`bar`/`phase`/`pie-chart`/`bar-chart`/`line-chart`/`milestones`/`delt
 (charts grow from zero on slide render; others run looping effects); an embedded Heroicons
 pack (outline + `…-solid` filled variants, 580+ glyphs) with `[icon]`; image +
 theme-asset (font/backdrop) bundling; the viewer; and a sample deck
-(`examples/demo.sd`) that exercises every component — all under `slidedown/`,
-byte-deterministic.
+(`samples/demo/demo.sd`) that exercises every component — the engine all under
+`slidedown/`, byte-deterministic.
 
 Open:
 

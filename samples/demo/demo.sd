@@ -1,11 +1,11 @@
 ---
 title: Slidedown — every component
-theme: falling-star
+theme: aurora
 transition: slide
 brand: Slidedown
 logo:
-  light: ./assets/logo.svg
-  dark: ./assets/logo-dark.svg
+  light: ./assets/novapay-light.svg
+  dark: ./assets/novapay-dark.svg
 author: Presenter skill
 ---
 
@@ -13,7 +13,7 @@ author: Presenter skill
 [@subtitle] One language, two themes, forty-five components
 [@note] This deck exercises every component; in real decks keep one idea per slide. [/@note]
 
-[logo size:20x* align:left /]
+[logo size:20x* align:center /]
 
 A [text color:accent weight:semibold]forgiving[/text], deterministic language — write `.sd`, compile, present.
 
@@ -325,7 +325,7 @@ Decks should be written, not dragged.
     [formula] risk = impact^{2} × (1 − **coverage**)^{3} [/formula]
     [example] covered / total = **73%** [/example]
     [code lang:bash title:build]
-      node compiler/slidedown.js examples/demo.sd
+      node slidedown/compiler/slidedown.js samples/demo/demo.sd
     [/code]
   [/column]
 [/columns]

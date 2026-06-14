@@ -24,8 +24,8 @@ directly: `node slidedown/compiler/slidedown.js <deck.sd>`.
 Try the sample, which exercises every component:
 
 ```bash
-slidedown slidedown/examples/demo.sd
-# → slidedown/examples/output/demo/index.html
+slidedown samples/demo/demo.sd
+# → samples/demo/output/demo/index.html
 ```
 
 Or your own file, to an explicit output directory:

@@ -41,8 +41,8 @@ ls slidedown/components/                          # available components
 grep -oE '^[a-z][a-z0-9-]*:' slidedown/icons/heroicons-outline.yaml   # valid icon names
 ```
 
-Skim `slidedown/examples/demo.sd` (exercises every component) and
-`slidedown/examples/falling-star.sd` as worked references for real syntax and density.
+Skim `samples/demo/demo.sd` (exercises every component) and
+`samples/demo/falling-star.sd` as worked references for real syntax and density.
 When unsure of a component's exact props, read its manifest:
 `slidedown/components/<name>/component.yaml`.
 

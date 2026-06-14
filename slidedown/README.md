@@ -36,9 +36,10 @@ slidedown/
 ├─ components/<name>/component.yaml   ← one manifest per component: props, children, template, styles
 ├─ icons/<pack>.yaml       ← icon packs (Heroicons-style)
 ├─ base.css                ← structural + typographic layer
-├─ viewer/                 ← the player runtime (nav, transitions, notes, remote), copied into every deck
-└─ examples/demo.sd        ← a sample deck that exercises every component
+└─ viewer/                 ← the player runtime (nav, transitions, notes, remote), copied into every deck
 ```
+
+Sample decks live in [`../samples/`](../samples/) — e.g. `demo/demo.sd`, which exercises every component.
 
 Two ideas make it work: **tokens are the contract** (documents reference a colour by name,
 e.g. `accent`, never a raw value, so swapping the theme restyles everything), and

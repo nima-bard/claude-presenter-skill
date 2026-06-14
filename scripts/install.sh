@@ -119,4 +119,4 @@ fi
 [ "$do_claude" = 1 ] && install_claude
 [ "$do_codex" = 1 ]  && install_codex
 
-echo "${c_green}Done.${c_reset}  Try:  ${c_bold}slidedown $REPO_ROOT/slidedown/examples/demo.sd${c_reset}"
+echo "${c_green}Done.${c_reset}  Try:  ${c_bold}slidedown $REPO_ROOT/samples/demo/demo.sd${c_reset}"

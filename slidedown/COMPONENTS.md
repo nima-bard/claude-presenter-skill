@@ -20,7 +20,7 @@ from its **own child components** — there is no `|`-field syntax. Every compon
 the [shared props](#shared-props).
 
 > All 46 components are implemented (one `components/<name>/component.yaml` each), plus the
-> `@slide` / `@subtitle` / `@note` / `@instruction` directives. `examples/demo.sd` exercises
+> `@slide` / `@subtitle` / `@note` / `@instruction` directives. `samples/demo/demo.sd` exercises
 > every one, and all four themes (`aurora`, `verde`, `falling-star`, `neo`) render them from
 > token values alone.
 

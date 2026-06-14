@@ -18,7 +18,7 @@ When the user asks to build slides / a deck / a talk / a readout, or to "present
    its exact props/children/aliases), and `slidedown/README.md`. The language evolves —
    never author from memory. Discover what's installed: `ls slidedown/themes/`,
    `ls slidedown/components/`, and the valid icon names in `slidedown/icons/*.yaml`.
-   Skim `slidedown/examples/demo.sd` for real syntax and density.
+   Skim `samples/demo/demo.sd` for real syntax and density.
 
 2. **Understand the subject.** Read the repo/docs behind it; pull real data, names and
    numbers. Find the one message, the audience, and the arc.
@@ -63,7 +63,7 @@ When the user asks to build slides / a deck / a talk / a readout, or to "present
   `theme.css` and `assets/`). **Tokens are the contract** (`slidedown/tokens/schema.yaml`).
 - **Determinism is a hard invariant:** same `.sd` + theme ⇒ byte-identical output (sorted
   keys, no timestamps/hashes). Preserve it.
-- After any change, rebuild `slidedown/examples/demo.sd` and confirm a clean build; keep
+- After any change, rebuild `samples/demo/demo.sd` and confirm a clean build; keep
   `MANIFESTO.md` / `COMPONENTS.md` in sync.
 
 ## Conventions
