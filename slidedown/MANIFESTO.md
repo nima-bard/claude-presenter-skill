@@ -1,4 +1,4 @@
-# Slidedown — Language Manifesto
+# The Slidedown language
 
 > The Slidedown language and its compiler. Everything lives under `slidedown/`
 > and references nothing outside it. Component details are in the companion spec,
@@ -52,7 +52,7 @@ first slide is preamble and is not rendered.
 
 ---
 
-## 2. Document header — presentation attributes
+## 2. Document header
 
 A single `---` YAML block at the very top sets presentation-wide defaults.
 
@@ -137,7 +137,7 @@ Written as bare keywords inside `[@slide]` (they resolve to a role or surface):
 
 ---
 
-## 4. Components — `[name props] … [/name]`
+## 4. Components
 
 A component is a **name**, optional **props**, and **content**.
 
@@ -174,7 +174,7 @@ child props (`focal`, `state:soon`).
 
 ---
 
-## 5. Text & inline formatting — `[text]`
+## 5. Text & inline formatting
 
 Markdown covers `**bold**`, `*italic*`, `` `code` ``, `[links](url)`, lists. For
 any *visual* formatting beyond that, wrap the run in `[text]` — the only such
@@ -236,7 +236,7 @@ Divide a slide into vertical columns with `[columns]`; **the number of
 
 ---
 
-## 8. The `[html]` escape hatch
+## 8. The escape hatch
 
 `[html] … [/html]` emits its content verbatim — for a hand-drawn SVG or a special
 embed. It bypasses theming; use sparingly.

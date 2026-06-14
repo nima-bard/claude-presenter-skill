@@ -1,52 +1,61 @@
-# Slidedown — Component Reference
+# Component reference
 
-> Companion to [`MANIFESTO.md`](MANIFESTO.md). The compiler defines each
-> component's structure and props (below); the active **theme** supplies its
-> look — colours, fonts, surfaces, spacing. No specific theme is named here. For
-> the syntax of components, props and composition, see the manifesto §4–§6.
+Every Slidedown component, with its props and children. The compiler defines each
+component's **structure**; the active **theme** supplies its **look** (colours, fonts,
+surfaces). For the language itself — slides, directives, tokens, composition — see the
+[Language guide](MANIFESTO.md).
 
-**Composition is the whole model.** A grouping component (flow, cards, timeline…)
-is built from **its own child components**, each a normal `[name props] … [/name]`
-with its own props — there is no shared item or `|`-field syntax (manifesto
-§4.4). Each entry below therefore lists the component's **children** (if any) and
-**props**. Every component *also* accepts the shared props.
+### How to read an entry
 
-> **All 46 components below are implemented** — one
-> `components/<name>/component.yaml` each — plus the `@slide` / `@subtitle` /
-> `@note` / `@instruction` directives. `examples/demo.sd` exercises every one,
-> and all four themes (`aurora`, `verde`, `falling-star`, `neo`) render them from
+Each component below lists, where relevant:
+
+- **Aliases** — other names for the same component (use whichever reads best).
+- **Props** — `key:value` attributes on the opening tag. A bare word is a boolean **flag**
+  (e.g. `animated`). Quote values with spaces: `title:"first month"`.
+- **Children** — the nested tags a grouping component is built from, each with its own props.
+- **Content** — what goes between the opening and closing tags (Markdown, unless noted).
+
+Composition is the whole model: a grouping component (`cards`, `flow`, `timeline`…) is built
+from its **own child components** — there is no `|`-field syntax. Every component also accepts
+the [shared props](#shared-props).
+
+> All 46 components are implemented (one `components/<name>/component.yaml` each), plus the
+> `@slide` / `@subtitle` / `@note` / `@instruction` directives. `examples/demo.sd` exercises
+> every one, and all four themes (`aurora`, `verde`, `falling-star`, `neo`) render them from
 > token values alone.
 
 ---
 
-## Shared props — accepted by every component
+## Shared props
+
+Accepted by **every** component:
 
 | Prop | Values | Meaning |
 |---|---|---|
-| `size` | `WxH` in slide-percent — `20x50`, `40x*`, `*x30`, `40` | size as a share of the 100×100 slide canvas (`*` = intrinsic) |
-| `align` | `left` · `center` · `right` | horizontal placement on the slide + inner text alignment |
+| `size` | `WxH` in slide-percent — `20x50`, `40x*`, `*x30`, `40` | size as a share of the 100×100 slide (`*` = intrinsic) |
+| `align` | `left` · `center` · `right` | horizontal placement + inner text alignment |
 | `valign` | `top` · `middle` · `bottom` | vertical placement within its area |
-| `color` | `accent` · `ink` · `muted` · `inverse` · *named* · `#hex` | foreground / accent colour |
+| `color` | `accent` · `ink` · `muted` · *named token* · `#hex` | foreground / accent colour |
 | `filled` | `none` · `paper` · `dark` · `accent` · `muted` · `#hex` | background fill |
-| `border` | `none` · `thin` · `thick` · `accent` | border weight / colour (`thin` ≈ "narrow") |
-| `mode` | `dark` · `light` | force just this component to the theme's dark or light palette, regardless of the slide's mode (layout-neutral) |
-| `id` | slug | optional anchor for linking / directives |
+| `border` | `none` · `thin` · `thick` · `accent` | border weight / colour |
+| `mode` | `dark` · `light` | force just this component to the theme's dark/light palette |
+| `id` | slug | optional anchor for linking |
 
-`icon:` props (on nodes, cards, chips…) name a glyph in the deck's `icons` pack
-(default `heroicons-outline` — 580+ glyphs), resolved from the shared icon
-resource (manifesto §2). Append `-solid` for the filled variant: `star` is the
-outline, `star-solid` the filled one.
+**Icons.** Any `icon:` prop (on `node`, `card`, `chip`, `callout`…) names a glyph in the
+deck's icon pack (default `heroicons-outline`, 580+ glyphs). Append `-solid` for the filled
+variant — `star` is the outline, `star-solid` the fill.
 
 ---
 
 ## Text & emphasis
 
-### `text`
-A styled span or box — the universal "extra formatting" primitive, and the
-*only* one (no punctuation shorthands). Inline when short; a block when it wraps
-block content.
-- **Children:** none. **Content:** any Markdown.
-- **Props:** `color`, `align`, `filled`, `border`, `weight` (`regular`/`medium`/`semibold`/`bold`), `case` (`normal`/`upper`/`small-caps`), `gradient` (flag), `underline` (flag).
+### text
+
+A styled span or box — the universal "extra formatting" primitive, and the *only* one (no
+punctuation shorthands). Inline when short; a block when it wraps block content.
+
+- **Content:** the run of Markdown to style.
+- **Props:** `color` (token) · `filled` (token background) · `weight` (`regular` / `medium` / `semibold` / `bold`) · `case` (`normal` / `upper` / `small-caps`) · `align` (`left` / `center` / `right`) · `border` (`none` / `thin` / `thick` / `accent`) · `gradient` (flag) · `underline` (flag)
 
 ```slidedown
 Shipped [text color:accent weight:semibold]ahead of schedule[/text].
@@ -54,31 +63,40 @@ Shipped [text color:accent weight:semibold]ahead of schedule[/text].
 
 ---
 
-## Say it
+## Callouts & statements
 
-### `callout`  · aliases: `note`, `important`
-One highlighted statement — the theme's tinted note bar.
-- **Children:** none. **Content:** one statement of Markdown.
-- **Props:** `tone:` `info` · `tip` · `warn` · `key` *(default — accent gradient)*; `color:` tints the bar; `icon:` overrides the leading glyph.
+### callout
+
+One highlighted statement — a tinted note bar.
+
+- **Aliases:** `note` · `important`
+- **Content:** one statement.
+- **Props:** `tone` (`info` / `tip` / `warn` / `key` — default `key`, the accent gradient) · `color` (tints the bar) · `icon` (leading glyph)
 
 ```slidedown
 [callout tone:warn] Refunds older than 90 days need a manager's approval. [/callout]
 ```
 
-### `quote`  · aliases: `quotation`, `testimonial`
+### quote
+
 A large quote card with a quotation mark and attribution.
-- **Children:** none. **Content:** the quote, then an attribution line starting `—`.
+
+- **Aliases:** `quotation` · `testimonial`
+- **Content:** the quotation.
+- **Props:** `by` (attribution, shown below the quote)
 
 ```slidedown
-[quote]
+[quote by:"Leonardo da Vinci"]
 Simplicity is the ultimate sophistication.
-— Leonardo da Vinci
 [/quote]
 ```
 
-### `chips`  · aliases: `pills`, `tags`
-A row of small pills; the theme decides their exact shape.
-- **Child — `chip`:** content is the label. Props: `color` (a theme palette hue — `accent`, a theme-named slot, or `#hex`), `icon`.
+### chips
+
+A row of small pills.
+
+- **Aliases:** `pills` · `tags`
+- **Children:** `chip` — a pill; content is the label. Props: `color` (a palette hue / `#hex`), `icon`.
 
 ```slidedown
 [chips]
@@ -87,16 +105,24 @@ A row of small pills; the theme decides their exact shape.
 [/chips]
 ```
 
-### `cta`  · aliases: `takeaway`, `call to action`
+### cta
+
 The closing message box — a bold, accent-filled panel.
-- **Children:** none. **Content:** one or two lines of Markdown.
+
+- **Aliases:** `takeaway` · `call-to-action`
+- **Content:** one or two lines.
 
 ```slidedown
-[cta] Edit the md, sync, present. [/cta]
+[cta] Edit the deck, compile, present. [/cta]
 ```
 
-### `statement`  · aliases: `hero`, `big-idea`
-One oversized, centred sentence — the slide that is a single idea. `kicker` (eyebrow above), `by` (attribution below), `gradient` (paint the text). Use [text] inside to accent words.
+### statement
+
+One oversized, centred sentence — the slide that is a single idea.
+
+- **Aliases:** `hero` · `big-idea`
+- **Content:** the sentence (use `[text]` inside to accent words).
+- **Props:** `kicker` (eyebrow above) · `by` (attribution below) · `gradient` (flag — paint the text with the theme gradient)
 
 ```slidedown
 [statement kicker:"Why Slidedown" gradient]
@@ -106,47 +132,96 @@ Decks should be written, not dragged.
 
 ---
 
-## Show structure
+## Process & flow
 
-### `flow`  · aliases: `pipeline`, `process`
+### flow
+
 A left-to-right diagram of nodes joined by arrows.
-- **Props:** `scale` (`1` default · `2` · `3` — larger nodes).
-- **Child — `node`:** content is the sub-text. Props: `icon`, `title`, `focal` (flag — the highlighted node).
+
+- **Aliases:** `pipeline` · `process`
+- **Props:** `scale` (`1` default / `2` / `3` — larger nodes)
+- **Children:** `node` — content is the sub-text. Props: `icon`, `title`, `focal` (flag — the highlighted node).
 
 ```slidedown
 [flow]
-  [node icon:pencil-square title:Edit] deck.md [/node]
+  [node icon:pencil-square title:Edit] deck.sd [/node]
   [node icon:cog title:Compile focal] deterministic [/node]
   [node icon:play title:Present] index.html [/node]
 [/flow]
 ```
 
-### `steps`  · aliases: `instructions`, `how-to`, `agenda`
+### steps
+
 An auto-numbered vertical list (numbered by order).
-- **Child — `step`:** content is the detail. Props: `title`.
+
+- **Aliases:** `instructions` · `how-to` · `agenda`
+- **Children:** `step` — content is the detail. Props: `title`.
 
 ```slidedown
 [steps]
   [step title:"Brief the skill"] Audience, duration, theme, subject. [/step]
-  [step title:"It writes the md"] Your content, in the language. [/step]
+  [step title:"It writes the deck"] Your content, in the language. [/step]
 [/steps]
 ```
 
-### `checks`  · aliases: `checklist`, `benefits`
-A ✓-list. Four or more children auto-split into two columns.
-- **Child — `check`:** content is the detail. Props: `title`, `icon` (default `check`).
+### cycle
+
+A circular process — stages around a ring with a looping centre icon. Positions are computed
+by index (best 3–6); list stages clockwise from the top.
+
+- **Aliases:** `loop` · `circular`
+- **Props:** `icon` (centre glyph, default `arrow-path`)
+- **Children:** `stage` (aliases `step`, `phase`) — content is the sub-text. Props: `title`.
 
 ```slidedown
-[checks]
-  [check title:"Speaker notes"] In the remote and print. [/check]
-  [check title:Fullscreen] F on the deck. [/check]
-[/checks]
+[cycle]
+  [stage title:Author] write .sd [/stage]
+  [stage title:Compile] five stages [/stage]
+[/cycle]
 ```
 
-### `cards`  · aliases: `boxes`, `features`, `options`
+### timeline
+
+Horizontal milestones on a single track.
+
+- **Aliases:** `roadmap` · `phases` · `journey`
+- **Children:** `phase` (alias `milestone`) — content is the sub-text. Props: `when`, `title`, `state` (`current` highlighted / `future` dashed & muted), `animated` (flag — the dot pulses).
+
+```slidedown
+[timeline]
+  [phase when:Q1 title:Discovery] scope agreed [/phase]
+  [phase when:Q2 title:Build state:current] we are here [/phase]
+  [phase when:Q3 title:Rollout state:future] all merchants [/phase]
+[/timeline]
+```
+
+### milestones
+
+An alternating timeline — labelled cards above and below the track, each tied to a node.
+(For a simpler single-row track, use `timeline`.)
+
+- **Aliases:** `chronology` · `milestone-track`
+- **Children:** `milestone` (aliases `stop`, `point`) — content is the description. Props: `label`, `current` (flag — highlights its node + card), `animated` (flag — shine sweep).
+
+```slidedown
+[milestones]
+  [milestone label:"Day 1"] Draft the deck in plain .sd [/milestone]
+  [milestone label:"Day 2" current animated] Compile — five deterministic stages [/milestone]
+  [milestone label:"Day 3"] Present in the browser [/milestone]
+[/milestones]
+```
+
+---
+
+## Grids, groups & comparison
+
+### cards
+
 A grid of icon cards.
-- **Props:** `cols:` `2` · `3` · `4`.
-- **Child — `card`:** content is the body. Props: `icon`, `title`, `pill` (corner tag text), `state:` `win` (highlighted) · `soon` (planned, dashed), `animated` (flag — a sweeping shine across the card).
+
+- **Aliases:** `boxes` · `features` · `options`
+- **Props:** `cols` (`2` / `3` / `4`, default `3`)
+- **Children:** `card` — content is the body. Props: `icon`, `title`, `pill` (corner tag), `state` (`win` highlighted / `soon` planned & dashed), `animated` (flag — a sweeping shine).
 
 ```slidedown
 [cards cols:3]
@@ -156,14 +231,17 @@ A grid of icon cards.
 [/cards]
 ```
 
-### `panels`  · aliases: `groups`
+### panels
+
 Grouped dark panels, each with a label, heading and its own content.
-- **Child — `panel`:** content is Markdown (typically a bullet list). Props: `label`, `title`.
+
+- **Aliases:** `groups`
+- **Children:** `panel` — content is Markdown (typically a bullet list). Props: `label`, `title`.
 
 ```slidedown
 [panels]
   [panel label:Today title:"What we have"]
-    - Two themes
+    - Four themes
   [/panel]
   [panel label:Next title:"What we add"]
     - More components
@@ -171,10 +249,27 @@ Grouped dark panels, each with a label, heading and its own content.
 [/panels]
 ```
 
-### `versus`  · aliases: `vs`, `before/after`
-A against B.
-- **Props:** `icon:` the centre-badge icon, an icon-pack name (default `arrow-right`).
-- **Child — `side`** (two of them): content is Markdown (bullets). Props: `label`, `title`, `prefer` (flag — the highlighted side).
+### checks
+
+A tick list. Four or more items flow into two columns.
+
+- **Aliases:** `checklist` · `benefits`
+- **Children:** `check` — content is the detail. Props: `title`, `icon` (default `check`).
+
+```slidedown
+[checks]
+  [check title:"Speaker notes"] In the remote and print. [/check]
+  [check title:Fullscreen] F on the deck. [/check]
+[/checks]
+```
+
+### versus
+
+A vs B, with an arrow badge between the two sides.
+
+- **Aliases:** `vs` · `before-after`
+- **Props:** `icon` (the centre-badge glyph, default `arrow-right`)
+- **Children:** `side` (two of them) — content is Markdown (bullets). Props: `label`, `title`, `prefer` (flag — the highlighted side).
 
 ```slidedown
 [versus]
@@ -187,53 +282,13 @@ A against B.
 [/versus]
 ```
 
-### `timeline`  · aliases: `roadmap`, `phases`, `journey`
-Horizontal milestones on a track.
-- **Child — `phase`** (alias `milestone`): content is the sub-text. Props: `when`, `title`, `state:` `current` (highlighted) · `future` (dashed, muted), `animated` (flag — the dot "beeps" with an expanding pulse).
+### pricing
 
-```slidedown
-[timeline]
-  [phase when:Q1 title:Discovery] scope agreed [/phase]
-  [phase when:Q2 title:Build state:current] we are here [/phase]
-  [phase when:Q3 title:Rollout state:future] all merchants [/phase]
-[/timeline]
-```
+Side-by-side pricing plans for a slide — each a card with a name, price and feature list (no
+CTA buttons; it's a deck, not a landing page).
 
-### `milestones`  · aliases: `chronology`, `milestone-track`
-An alternating timeline: labelled cards above and below a horizontal track, each tied to a node. (For a simpler single-row track, use `timeline`.)
-- **Child — `milestone`** (aliases `stop`, `point`): content is the description. Props: `label`, `current` (flag — highlights its node + card), `animated` (flag — the same shine sweep the cards use).
-
-```slidedown
-[milestones]
-  [milestone label:"Day 1"] Draft the deck in plain .sd [/milestone]
-  [milestone label:"Day 2" current animated] Compile — five deterministic stages [/milestone]
-  [milestone label:"Day 3"] Present in the browser [/milestone]
-[/milestones]
-```
-
-### `faq`  · aliases: `q&a`, `questions`
-A question / answer list.
-- **Child — `qa`:** content is the answer. Props: `q` (the question).
-
-```slidedown
-[faq]
-  [qa q:"Is it deterministic?"] Yes — same md, same html. [/qa]
-[/faq]
-```
-
-### `team`  · aliases: `people`, `owners`
-People cards with an avatar.
-- **Child — `person`:** content is the name. Props: `avatar` (initials or glyph), `role`, `note`.
-
-```slidedown
-[team]
-  [person avatar:AL role:Engineering note:reviewer] Ada Lovelace [/person]
-[/team]
-```
-
-### `pricing`  · aliases: `plans`, `tiers`
-Side-by-side pricing plans for a slide — each a card with a name, price and feature list (no CTA buttons; it's a deck, not a landing page). Flag one plan `featured` to lift it, add a `badge` (e.g. "Popular"), and `animated` for the shine sweep.
-- **Child — `plan`** (aliases `tier`, `pkg`): content is the feature list (bullets render as ticks). Props: `name`, `price`, `period`, `badge`, `featured`, `animated`.
+- **Aliases:** `plans` · `tiers`
+- **Children:** `plan` (aliases `tier`, `pkg`) — content is the feature list (bullets render as ticks). Props: `name`, `price`, `period`, `badge` (corner tag), `featured` (flag — lifts the plan), `animated` (flag — shine sweep).
 
 ```slidedown
 [pricing]
@@ -242,15 +297,19 @@ Side-by-side pricing plans for a slide — each a card with a name, price and fe
     - All components
   [/plan]
   [plan name:Team price:"$12" period:"/mo" featured animated badge:Popular]
-    - Both themes
+    - All four themes
     - Speaker remote
   [/plan]
 [/pricing]
 ```
 
-### `pyramid`  · aliases: `hierarchy`, `layers`
-A layered pyramid — list layers apex-first (top, narrowest) down to the base (widest); each width is computed from its position.
-- **Child — `layer`** (aliases `level`, `tier`): content is the sub-text. Props: `title`.
+### pyramid
+
+A layered pyramid — list layers apex-first (top, narrowest) down to the base (widest); each
+width is computed from its position.
+
+- **Aliases:** `hierarchy` · `layers`
+- **Children:** `layer` (aliases `level`, `tier`) — content is the sub-text. Props: `title`.
 
 ```slidedown
 [pyramid]
@@ -259,21 +318,13 @@ A layered pyramid — list layers apex-first (top, narrowest) down to the base (
 [/pyramid]
 ```
 
-### `cycle`  · aliases: `loop`, `circular`
-A circular process — stages around a ring with a looping icon in the centre; positions are computed by index (best 3–6). List clockwise from the top.
-- **Props:** `icon` (centre glyph, default `arrow-path`).
-- **Child — `stage`** (aliases `step`, `phase`): content is the sub-text. Props: `title`.
+### architecture
 
-```slidedown
-[cycle]
-  [stage title:Author] write .sd [/stage]
-  [stage title:Compile] five stages [/stage]
-[/cycle]
-```
+A layered architecture — tiers stacked top to bottom, each a row of boxes with an optional
+side label. (For free-form boxes + arrows, use `[html]`.)
 
-### `architecture`  · aliases: `tiers`, `stack`
-A layered architecture — tiers stacked top to bottom, each a row of boxes with an optional side label. (For free-form boxes + arrows, use [html].)
-- **Child — `tier`** (aliases `layer`, `row`): props `label`. Holds **`box`** children (aliases `node`, `service`): content is the box label, prop `icon`.
+- **Aliases:** `tiers` · `stack`
+- **Children:** `tier` (aliases `layer`, `row`) — props: `label`. Holds **`box`** children (aliases `node`, `service`) — content is the box label, prop: `icon`.
 
 ```slidedown
 [architecture]
@@ -286,11 +337,44 @@ A layered architecture — tiers stacked top to bottom, each a row of boxes with
 
 ---
 
-## Show numbers
+## People & FAQ
 
-### `metrics`  · aliases: `stats`, `kpis`
+### team
+
+People cards with an avatar.
+
+- **Aliases:** `people` · `owners`
+- **Children:** `person` — content is the name. Props: `avatar` (initials or glyph), `role`, `note`.
+
+```slidedown
+[team]
+  [person avatar:AL role:Engineering note:reviewer] Ada Lovelace [/person]
+[/team]
+```
+
+### faq
+
+A question / answer list.
+
+- **Aliases:** `q&a` · `questions`
+- **Children:** `qa` — content is the answer. Props: `q` (the question).
+
+```slidedown
+[faq]
+  [qa q:"Is it deterministic?"] Yes — same .sd, same HTML. [/qa]
+[/faq]
+```
+
+---
+
+## Numbers & metrics
+
+### metrics
+
 A row of big-value stat tiles.
-- **Child — `metric`:** content is the label. Props: `value`.
+
+- **Aliases:** `stats` · `kpis`
+- **Children:** `metric` — content is the label. Props: `value`.
 
 ```slidedown
 [metrics]
@@ -299,9 +383,12 @@ A row of big-value stat tiles.
 [/metrics]
 ```
 
-### `bars`  · alias: `progress`
+### bars
+
 Labelled progress bars, clamped to 0–100.
-- **Child — `bar`:** content is the label. Props: `value` (0–100), `animated` (flag — the fill shows a sweeping shine).
+
+- **Aliases:** `progress`
+- **Children:** `bar` — content is the label. Props: `value` (0–100), `animated` (flag — sweeping shine on the fill).
 
 ```slidedown
 [bars]
@@ -309,10 +396,13 @@ Labelled progress bars, clamped to 0–100.
 [/bars]
 ```
 
-### `split`  · alias: `coverage`
-Covered-vs-uncovered shown in one two-tone bar. Uses the same `bar` child; the
-remainder of `value` renders as the uncovered share.
-- **Child — `bar`:** content is the label. Props: `value` (covered share, 0–100).
+### split
+
+Covered-vs-uncovered shown in one two-tone bar — the remainder of `value` renders as the
+uncovered share.
+
+- **Aliases:** `coverage`
+- **Children:** `bar` — content is the label. Props: `value` (covered share, 0–100).
 
 ```slidedown
 [split]
@@ -320,17 +410,24 @@ remainder of `value` renders as the uncovered share.
 [/split]
 ```
 
-### `badge`  · alias: `big number`
+### badge
+
 One big number — the figure the room should remember.
-- **Children:** none. **Content:** the label under the number. **Props:** `value`.
+
+- **Aliases:** `big-number`
+- **Props:** `value`
+- **Content:** the label under the number.
 
 ```slidedown
 [badge value:42] services · migrated [/badge]
 ```
 
-### `gauge`  · aliases: `donut`, `ring`, `dial`
+### gauge
+
 Donut percentage(s) — one or two.
-- **Child — `dial`:** content is the caption. Props: `value` (0–100).
+
+- **Aliases:** `donut` · `ring` · `dial`
+- **Children:** `dial` — content is the caption. Props: `value` (0–100).
 
 ```slidedown
 [gauge]
@@ -338,17 +435,27 @@ Donut percentage(s) — one or two.
 [/gauge]
 ```
 
-### `delta`  · aliases: `trend`, `movement`
-One big number with its movement — an up/down/flat arrow + change figure, coloured by direction (up = ok, down = danger) or an explicit `tone`.
-- **Props:** `value`, `change`, `dir:` `up`·`down`·`flat`, `tone:` `ok`·`warn`·`danger`·`accent` (override the pill colour), `label`, `accent` (flag — fill the card with the theme gradient), `animated` (flag — shine sweep). Content is an optional note.
+### delta
+
+One big number with its movement — an up / down / flat arrow and a change figure, coloured by
+direction (up = ok, down = danger) or an explicit `tone`. For a single headline metric; for a
+grid use `scorecard`.
+
+- **Aliases:** `trend` · `movement`
+- **Content:** an optional note.
+- **Props:** `value` · `change` · `dir` (`up` / `down` / `flat`) · `tone` (`ok` / `warn` / `danger` / `accent` — overrides the pill colour) · `label` · `accent` (flag — fill the card with the theme gradient) · `animated` (flag — shine sweep)
 
 ```slidedown
 [delta value:"+34%" change:"vs last quarter" dir:up label:Adoption accent animated] growth across teams [/delta]
 ```
 
-### `scorecard`  · aliases: `kpis`, `scoreboard`
-A grid of KPI tiles — value, optional target, and a movement. (For one headline number use `delta`; for plain figures use `metrics`.)
-- **Child — `kpi`** (aliases `stat`, `score`): props `value`, `label`, `target`, `change`, `dir`, `tone`.
+### scorecard
+
+A grid of KPI tiles — value, optional target, and a movement (like a compact dashboard). For
+one headline number use `delta`; for plain figures use `metrics`.
+
+- **Aliases:** `kpis` · `scoreboard`
+- **Children:** `kpi` (aliases `stat`, `score`) — props: `value`, `label`, `target`, `change`, `dir`, `tone`.
 
 ```slidedown
 [scorecard]
@@ -357,9 +464,12 @@ A grid of KPI tiles — value, optional target, and a movement. (For one headlin
 [/scorecard]
 ```
 
-### `status`  · aliases: `health`, `rag`
-Red/amber/green status rows — a coloured dot, a name, a note and an optional owner.
-- **Child — `item`** (aliases `row`, `line`): content is the note. Props: `state:` `ok`·`done`·`warn`·`risk`·`blocked`·`info`, `title`, `owner`.
+### status
+
+Red / amber / green status rows — a coloured state pill, a name, a note and an optional owner.
+
+- **Aliases:** `health` · `rag`
+- **Children:** `item` (aliases `row`, `line`) — content is the note. Props: `state` (`ok` / `done` green · `warn` amber · `risk` / `blocked` red · `info` blue), `title`, `owner`.
 
 ```slidedown
 [status]
@@ -372,14 +482,16 @@ Red/amber/green status rows — a coloured dot, a name, a note and an optional o
 
 ## Charts
 
-All charts are inline SVG (no library; colours follow the theme + mode) and honour the
-shared **`size`** prop — `size:96` renders the chart at 96% of the content width, `align:center`
-to centre it. They scale crisply to whatever width you give them.
+All charts are inline SVG (no library; colours follow the theme + mode) and honour the shared
+`size` prop — `size:96` renders at 96% of the content width; pair with `align:center`.
 
-### `bar-chart`  · aliases: `barchart`, `column-chart`
-A themed bar chart drawn as inline SVG; each bar takes a distinct token colour (the same palette the pie cycles).
-- **Props:** `animated` (flag) — the bars grow from the baseline (value 0 → value), staggered, **once when the slide renders** (and again whenever the slide is shown), not a continuous loop.
-- **Child — `point`** (alias `datum`): a data point. Props: `label`, `value`.
+### bar-chart
+
+A themed bar chart; each bar takes a distinct token colour (the palette the pie cycles).
+
+- **Aliases:** `barchart` · `column-chart`
+- **Props:** `animated` (flag — the bars grow from the baseline, 0 → value, staggered, **once when the slide renders**; not a continuous loop)
+- **Children:** `point` (alias `datum`) — props: `label`, `value`.
 
 ```slidedown
 [bar-chart animated]
@@ -389,10 +501,13 @@ A themed bar chart drawn as inline SVG; each bar takes a distinct token colour (
 [/bar-chart]
 ```
 
-### `line-chart`  · aliases: `linechart`, `trend`
-A themed line chart drawn as inline SVG — a line, dots and a soft area fill.
-- **Props:** `animated` (flag) — the line, area and dots rise together from the baseline (value 0 → value) **once when the slide renders** (and again whenever the slide is shown).
-- **Child — `point`** (alias `datum`): a data point. Props: `label`, `value`.
+### line-chart
+
+A themed line chart — a line, dots and a soft area fill.
+
+- **Aliases:** `linechart` · `trend`
+- **Props:** `animated` (flag — the line, area and dots rise from the baseline, 0 → value, **once when the slide renders**)
+- **Children:** `point` (alias `datum`) — props: `label`, `value`.
 
 ```slidedown
 [line-chart animated]
@@ -402,10 +517,13 @@ A themed line chart drawn as inline SVG — a line, dots and a soft area fill.
 [/line-chart]
 ```
 
-### `pie-chart`  · aliases: `piechart`, `pie`
-A themed pie chart (inline SVG) with a coloured side legend — a distinct token colour per slice.
-- **Props:** `animated` (flag) — a looping spotlight: each slice pops outward while its legend row brightens, in turn, then settles as the next takes over — cycling through every slice forever.
-- **Child — `point`** (alias `datum`): a slice. Props: `label`, `value`.
+### pie-chart
+
+A themed pie chart with a coloured side legend — a distinct token colour per slice.
+
+- **Aliases:** `piechart` · `pie`
+- **Props:** `animated` (flag — a looping spotlight: each slice pops out while its legend row brightens, in turn, cycling forever)
+- **Children:** `point` (alias `datum`) — props: `label`, `value`.
 
 ```slidedown
 [pie-chart animated size:70]
@@ -415,9 +533,13 @@ A themed pie chart (inline SVG) with a coloured side legend — a distinct token
 [/pie-chart]
 ```
 
-### `heatmap`  · aliases: `matrix`, `gridmap`
-A grid of intensity cells (level 0–4 on the accent scale) in labelled rows — calendars, cohorts, value matrices.
-- **Child — `hrow`** (alias `row`): props `label`. Holds **`cell`** children: props `level` (0–4), `value` (optional, shown in the cell).
+### heatmap
+
+A grid of intensity cells (level 0–4 on the accent scale) in labelled rows — calendars,
+cohorts, value matrices.
+
+- **Aliases:** `matrix` · `gridmap`
+- **Children:** `hrow` (alias `row`) — props: `label`. Holds **`cell`** children — props: `level` (0–4), `value` (optional, shown in the cell).
 
 ```slidedown
 [heatmap]
@@ -428,12 +550,16 @@ A grid of intensity cells (level 0–4 on the accent scale) in labelled rows —
 
 ---
 
-## Show evidence
+## Tables, code & evidence
 
-### `table`  · alias: `report`
-A report table. The first column is the row name; a risk word (`low`/`mid`/`high`)
-in the last column is colour-coded.
-- **Children:** none. **Content:** a Markdown table. **Props:** `head` (header colour — a token, e.g. `accent`/`ink`).
+### table
+
+A report table. The first column is the row name; a risk word (`low` / `mid` / `high`) in the
+last column is colour-coded.
+
+- **Aliases:** `report`
+- **Content:** a Markdown table.
+- **Props:** `head` (header colour — a token, e.g. `accent` / `ink`)
 
 ```slidedown
 [table]
@@ -442,10 +568,14 @@ in the last column is colour-coded.
 [/table]
 ```
 
-### `compare`  · alias: `comparison`
-A comparison table. A row whose name starts with `*` is the **chosen** row;
-`y`/`n` cells render as ✓/✗.
-- **Children:** none. **Content:** a Markdown table. **Props:** `head` (header colour token).
+### compare
+
+A comparison table. A row whose name starts with `*` is the **chosen** row; `y` / `n` cells
+render as ✓ / ✗.
+
+- **Aliases:** `comparison`
+- **Content:** a Markdown table.
+- **Props:** `head` (header colour token)
 
 ```slidedown
 [compare]
@@ -455,35 +585,48 @@ A comparison table. A row whose name starts with `*` is the **chosen** row;
 [/compare]
 ```
 
-### `code`  · aliases: `snippet`, `terminal`
+### code
+
 A code window with a title bar.
-- **Children:** none. **Content:** verbatim code. **Props:** `lang`, `title`.
+
+- **Aliases:** `snippet` · `terminal`
+- **Content:** verbatim code.
+- **Props:** `lang`, `title`
 
 ```slidedown
 [code lang:bash title:build]
-node compiler/compile.js deck.md
+node slidedown/compiler/slidedown.js deck.sd
 [/code]
 ```
 
-### `formula`  · alias: `math`
+### formula
+
 A dark maths card. `^{…}` renders a superscript; `**bold**` is the accent.
-- **Children:** none. **Content:** one line of Markdown maths.
+
+- **Aliases:** `math`
+- **Content:** one line of Markdown maths.
 
 ```slidedown
 [formula] risk = impact^{2} × (1 − **coverage**)^{3} [/formula]
 ```
 
-### `example`
+### example
+
 A single line of monospace example text.
-- **Children:** none. **Content:** one inline line; `**bold**` highlights.
+
+- **Content:** one inline line; `**bold**` highlights.
 
 ```slidedown
 [example] covered / total = **73%** [/example]
 ```
 
-### `api`  · aliases: `endpoints`, `routes`
-A list of API endpoints — a colour-coded method chip, a monospace path, a description. GET (blue) · POST (green) · PUT/PATCH (amber) · DELETE (red).
-- **Child — `endpoint`** (aliases `route`, `ep`): content is the description. Props: `method`, `path`.
+### api
+
+A list of API endpoints — a colour-coded method chip, a monospace path, a description.
+GET (blue) · POST (green) · PUT/PATCH (amber) · DELETE (red).
+
+- **Aliases:** `endpoints` · `routes`
+- **Children:** `endpoint` (aliases `route`, `ep`) — content is the description. Props: `method`, `path`.
 
 ```slidedown
 [api]
@@ -496,38 +639,46 @@ A list of API endpoints — a colour-coded method chip, a monospace path, a desc
 
 ## Media
 
-### `image`  · aliases: `img`, `picture`
+### image
+
 A framed image; local files are copied into the deck on build. Void — may self-close.
-- **Children:** none. **Props:** `src`, `alt`, `caption`.
+
+- **Aliases:** `img` · `picture`
+- **Props:** `src`, `alt`, `caption`
 
 ```slidedown
 [image src:./architecture.png caption:"The event flow today" /]
 ```
 
-### `logo`  · aliases: `wordmark`, `brandmark`
-The deck logo placed on a slide. Void — self-closes. With no `src` it uses the
-front-matter `logo:` (light + dark) and shows the variant matching the slide's
-mode; files are copied into `output/assets/`.
-- **Children:** none. **Props:** `src` (a single override for both modes; defaults to the front-matter `logo:`), `alt`; plus shared `size`/`align`.
+### logo
+
+The deck logo placed on a slide. Void — self-closes. With no `src` it uses the front-matter
+`logo:` (light + dark) and shows the variant matching the slide's mode.
+
+- **Aliases:** `wordmark` · `brandmark`
+- **Props:** `src` (a single override for both modes; defaults to the front-matter `logo:`), `alt`, plus shared `size` / `align`
 
 ```slidedown
 [logo size:20x* align:left /]
 ```
 
-### `icon`  · aliases: `heroicon`, `glyph`
-A named icon from the deck's pack (front-matter `icons:`, default
-`heroicons-outline`). Void — self-closes; inherits the surrounding text colour
-unless `color:` is set. Components with an `icon:` prop (`node`, `card`, `chip`,
-`callout`) take the same names.
-- **Children:** none. **Props:** `name` (e.g. `cog`, `bolt`, `check-circle`; add `-solid` for the filled variant, e.g. `star-solid`), `size` (px, default 28), `color` (token).
+### icon
+
+A named icon from the deck's pack. Void — self-closes; inherits the surrounding text colour
+unless `color:` is set.
+
+- **Aliases:** `heroicon` · `glyph`
+- **Props:** `name` (e.g. `cog`, `bolt`, `check-circle`; add `-solid` for the filled variant), `size` (px, default `28`), `color` (token)
 
 ```slidedown
 [icon name:cog size:40 color:accent /]
 ```
 
-### `html`
-The escape hatch — content is emitted verbatim, untouched by the theme.
-- **Children:** none. **Content:** raw HTML (e.g. an inline SVG).
+### html
+
+The escape hatch — content is emitted verbatim, untouched by the theme. Use sparingly.
+
+- **Content:** raw HTML (e.g. an inline SVG).
 
 ```slidedown
 [html]
@@ -537,14 +688,15 @@ The escape hatch — content is emitted verbatim, untouched by the theme.
 
 ---
 
-## Layout
+## Layout & spacing
 
-### `columns`  · alias: `cols`
-Divides the slide into vertical columns. **The number of `[column]` children is
-the number of columns.**
-- **Child — `column`:** content is anything (Markdown / components). Props: the
-  shared `size` (its width share) and `align`; a column with no `size` takes an
-  equal share of the remainder.
+### columns
+
+Divides the slide into vertical columns. **The number of `[column]` children is the number of
+columns.**
+
+- **Aliases:** `cols`
+- **Children:** `column` (alias `col`) — content is anything (Markdown / components). Props: shared `size` (its width share) and `align`; a column with no `size` takes an equal share of the remainder.
 
 ```slidedown
 [columns]
@@ -559,11 +711,14 @@ the number of columns.**
 [/columns]
 ```
 
-### `group`  · aliases: `box`, `stack`
-A layout wrapper that stacks and aligns any components together — works for every
-component (use it instead of a per-component `align` when a whole group should be
-centred or right-aligned).
-- **Child:** any components. **Props:** `align` (`left`/`center`/`right`), `gap` (px).
+### group
+
+A layout wrapper that stacks and aligns any components together — use it instead of a
+per-component `align` when a whole group should be centred or right-aligned.
+
+- **Aliases:** `box` · `stack`
+- **Props:** `align` (`left` / `center` / `right`), `gap` (px)
+- **Children:** any components.
 
 ```slidedown
 [group align:center]
@@ -574,10 +729,13 @@ centred or right-aligned).
 [/group]
 ```
 
-### `void`  · aliases: `spacer`, `space`, `vspace`
-A vertical spacer — pure empty space between elements, for breathing room or to push
-content down. Void — self-closes.
-- **Children:** none. **Props:** `scale` (how many lines of blank space — `1`, `2`, `3`, …; default `1`, where one line ≈ one body text line). Ignores the shared placement props.
+### void
+
+A vertical spacer — pure empty space between elements, for breathing room or to push content
+down. Void — self-closes.
+
+- **Aliases:** `spacer` · `space` · `vspace`
+- **Props:** `scale` (how many lines of blank space — `1`, `2`, `3`…; default `1`, where one line ≈ one body text line). Ignores the shared placement props.
 
 ```slidedown
 A line of intro.
@@ -591,34 +749,39 @@ A line of intro.
 
 ---
 
-## Meta & tool directives
+## Directives & meta
 
-### `meta`
+### meta
+
 The title-slide byline row.
-- **Children:** none. **Content:** a Markdown list; each item is one entry (e.g. `- **Label** · value`).
+
+- **Content:** a Markdown list; each item is one entry (e.g. `- **Label** · value`).
 
 ```slidedown
 [meta]
-- **Author** · Presenter skill
+- **Author** · Platform Team
 - **Date** · Q2 review
 [/meta]
 ```
 
-### `@note`  · aliases: `@notes`, `@speaker-notes`
-Hidden speaker notes for the current slide — shown in the speaker panel, remote
-and print handout, never on the slide. The `@` marks it as a tool directive, not
-rendered content (manifesto §3).
-- **Children:** none. **Content:** Markdown.
+### @note
+
+Hidden speaker notes for the current slide — shown in the speaker panel, remote and print
+handout, never on the slide. The `@` marks it as a tool directive, not rendered content.
+
+- **Aliases:** `@notes` · `@speaker-notes`
+- **Content:** Markdown.
 
 ```slidedown
 [@note] Lead with the 84% bar; 38% is the gap to close. [/@note]
 ```
 
-### `@instruction`
-A directive to the authoring tool — never rendered. The build refuses to
-complete while any `@instruction` remains, so a forgotten note can't leak into a
-deck.
-- **Children:** none. **Content:** the instruction text.
+### @instruction
+
+A directive to the authoring tool — never rendered. The build **refuses to finish** while any
+`@instruction` remains, so a forgotten note can't leak into a deck.
+
+- **Content:** the instruction text.
 
 ```slidedown
 [@instruction] use the real first-month number from the repo [/@instruction]
@@ -628,14 +791,16 @@ deck.
 
 ## Quick index
 
-| Group | Component | Children |
+| Group | Components | Children |
 |---|---|---|
-| Text | `text` | — |
-| Say it | `callout` · `quote` · `chips` · `cta` · `statement` | `chip` |
-| Structure | `flow` · `steps` · `checks` · `cards` · `panels` · `versus` · `timeline` · `milestones` · `pyramid` · `cycle` · `architecture` · `pricing` · `faq` · `team` | `node` · `step` · `check` · `card` · `panel` · `side` · `phase` · `milestone` · `layer` · `stage` · `tier` · `box` · `plan` · `qa` · `person` |
-| Numbers | `metrics` · `bars` · `split` · `badge` · `gauge` · `delta` · `scorecard` · `status` | `metric` · `bar` · `dial` · `kpi` · `item` |
+| Text & emphasis | `text` | — |
+| Callouts & statements | `callout` · `quote` · `chips` · `cta` · `statement` | `chip` |
+| Process & flow | `flow` · `steps` · `cycle` · `timeline` · `milestones` | `node` · `step` · `stage` · `phase` · `milestone` |
+| Grids, groups & comparison | `cards` · `panels` · `checks` · `versus` · `pricing` · `pyramid` · `architecture` | `card` · `panel` · `check` · `side` · `plan` · `layer` · `tier` · `box` |
+| People & FAQ | `team` · `faq` | `person` · `qa` |
+| Numbers & metrics | `metrics` · `bars` · `split` · `badge` · `gauge` · `delta` · `scorecard` · `status` | `metric` · `bar` · `dial` · `kpi` · `item` |
 | Charts | `bar-chart` · `line-chart` · `pie-chart` · `heatmap` | `point` · `hrow` · `cell` |
-| Evidence | `table` · `compare` · `code` · `formula` · `example` · `api` | `endpoint` |
-| Media | `image` · `html` · `logo` · `icon` | — |
-| Layout | `columns` · `group` · `void` | `column` |
-| Meta | `meta` · `@note` · `@instruction` | — |
+| Tables, code & evidence | `table` · `compare` · `code` · `formula` · `example` · `api` | `endpoint` |
+| Media | `image` · `logo` · `icon` · `html` | — |
+| Layout & spacing | `columns` · `group` · `void` | `column` |
+| Directives & meta | `meta` · `@note` · `@instruction` | — |

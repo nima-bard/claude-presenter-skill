@@ -19,8 +19,8 @@ Your job: take the context you were given, conceptualize it into the most expres
 slides the language allows, and produce a deck that **compiles with zero errors and
 zero unresolved notes**.
 
-Work from the repo root (`/media/nima/Works/codes/claude-presenter-skill`). All paths
-below are relative to it.
+Work from the repo root — the directory that contains `slidedown/`. All paths below are
+relative to it.
 
 ---
 

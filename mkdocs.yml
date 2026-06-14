@@ -1,0 +1,86 @@
+site_name: Slidedown
+site_description: >-
+  Markdown for slides — a small, readable dialect and a deterministic, zero-dependency
+  compiler that turns a .sd document into a polished, self-contained HTML deck.
+site_author: The Slidedown Authors
+site_url: https://nima-bard.github.io/slidedown/
+
+repo_name: nima-bard/slidedown
+repo_url: https://github.com/nima-bard/slidedown
+edit_uri: edit/master/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - navigation.footer
+    - content.code.copy
+    - content.action.edit
+    - search.suggest
+    - search.highlight
+    - toc.follow
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Authoring:
+      - Language: reference/manifesto.md
+      - Components: reference/components.md
+  - Themes: themes.md
+  - AI agents: agents.md
+  - Contributing: contributing.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+
+plugins:
+  - search
+
+# Rewrites the few GitHub-relative cross-links inside the included reference files
+# (slidedown/MANIFESTO.md & COMPONENTS.md) so they resolve within the docs site.
+hooks:
+  - scripts/mkdocs_hooks.py
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/nima-bard/slidedown
+
+copyright: Copyright &copy; 2026 The Slidedown Authors — Apache-2.0

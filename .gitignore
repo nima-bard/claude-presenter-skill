@@ -1,0 +1,21 @@
+# Compiled decks (generated, deterministic — rebuild with the compiler)
+output/
+build/
+**/output/
+**/build/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Node (the compiler is dependency-free, but just in case)
+node_modules/
+npm-debug.log*
+
+# Docs site (MkDocs build output + local preview venv)
+site/
+.venv-docs/
+__pycache__/

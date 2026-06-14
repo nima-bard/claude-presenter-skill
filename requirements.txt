@@ -1,0 +1,3 @@
+# Docs site toolchain (build-time only — the Slidedown engine itself has zero dependencies).
+# Used by `scripts/docs.sh` for local preview and by the GitHub Pages workflow.
+mkdocs-material~=9.5
