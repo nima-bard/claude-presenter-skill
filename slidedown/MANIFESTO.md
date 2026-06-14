@@ -262,12 +262,18 @@ Everything is data:
   (surface, ink, card…). The compiler emits the light set at `:root` and the dark
   set scoped to dark-mode slides (and the chrome while one is active), so
   `[@slide … dark]` swaps the whole palette. Optional `themes/<name>/theme.css`
-  adds theme-specific styling (verde uses it for its bordered cards and glows).
+  adds theme-specific styling, and `themes/<name>/assets/` bundles fonts or
+  backdrop images the compiler copies into the deck — so a theme can ship a
+  custom font and a full-bleed painting and still be offline + deterministic
+  (`falling-star` does; `verde` uses theme.css for bordered cards and glows).
 - **Components** — `components/<name>/component.yaml`: a uniform manifest with
   `name`, `aliases`, `props`, `children`, `content` mode, a logicless `template`,
   and `styles`. Extension is a drop-in: add a folder.
 - **Templates** are logicless (Mustache subset): `{{prop}}`, `{{{raw}}}`,
-  `{{#flag}}…{{/flag}}`, `{{{content}}}`.
+  `{{#flag}}…{{/flag}}`, `{{^flag}}…{{/flag}}`, `{{{content}}}`. A child of an
+  `indexed` parent also gets `{{i}}` / `{{n}}` / `{{i1}}` (its position and the
+  sibling count) — that is how `pyramid` widths and `cycle` angles are computed
+  without bespoke compiler code.
 
 Output is deterministic — stable ordering, sorted tokens/components, no
 timestamps, no content hashes:
@@ -276,6 +282,7 @@ timestamps, no content hashes:
 output/<deck>/
 ├─ index.html
 ├─ styles.css        (:root tokens + base + all component CSS)
+├─ assets/           (images + bundled theme fonts/backdrops, when present)
 └─ viewer/           (the player runtime, copied verbatim)
 ```
 
@@ -300,9 +307,9 @@ A [text color:accent weight:semibold]forgiving[/text] language: write `.sd`, com
 [@slide] How a deck builds
 
 [flow]
-  [node icon:✎ title:Author] write the .sd [/node]
-  [node icon:⚙ title:Compile focal] five deterministic stages [/node]
-  [node icon:▶ title:Present] static index.html [/node]
+  [node icon:pencil title:Author] write the .sd [/node]
+  [node icon:cog title:Compile focal] five deterministic stages [/node]
+  [node icon:play title:Present] static index.html [/node]
 [/flow]
 
 [callout tone:tip] Tokens are the contract — documents never go beyond them. [/callout]
@@ -316,14 +323,17 @@ A [text color:accent weight:semibold]forgiving[/text] language: write `.sd`, com
 
 ## 11. Status & open questions
 
-Implemented: the five-stage compiler, the token schema + two themes
-(`aurora`, `verde`) each with **light & dark modes**, all 45 components (see
-[`COMPONENTS.md`](COMPONENTS.md)), the directives
-`@slide`/`@subtitle`/`@note`/`@instruction`, an `animated` flag for `card`/`bar`/`phase`/`pie-chart`/`milestones` effects, the universal placement wrapper
-(`size`/`align`/`valign`), an embedded Heroicons-style icon pack + `[icon]`,
-local-image asset copy, soft accent backgrounds on every slide, the viewer, and a
-sample deck (`examples/demo.sd`) that exercises every component — all under
-`slidedown/`, byte-deterministic.
+Implemented: the five-stage compiler; the token schema + three themes — `aurora`,
+`verde`, and `falling-star` (a painterly night/dawn theme with a bundled backdrop
+image and handwriting font) — each with **light & dark modes**; all 45 components
+(see [`COMPONENTS.md`](COMPONENTS.md)); the directives
+`@slide`/`@subtitle`/`@note`/`@instruction`; the shared props `size`/`align`/`valign`
+plus `mode:dark|light` (flip one component to the other palette); an `animated` flag
+for `card`/`bar`/`phase`/`pie-chart`/`milestones`/`delta`/`plan`; an embedded Heroicons
+pack (outline + `…-solid` filled variants, 580+ glyphs) with `[icon]`; image +
+theme-asset (font/backdrop) bundling; the viewer; and a sample deck
+(`examples/demo.sd`) that exercises every component — all under `slidedown/`,
+byte-deterministic.
 
 Open:
 

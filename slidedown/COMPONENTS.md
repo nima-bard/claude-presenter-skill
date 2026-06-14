@@ -14,7 +14,8 @@ with its own props — there is no shared item or `|`-field syntax (manifesto
 > **All 45 components below are implemented** — one
 > `components/<name>/component.yaml` each — plus the `@slide` / `@subtitle` /
 > `@note` / `@instruction` directives. `examples/demo.sd` exercises every one,
-> and both themes (`aurora`, `verde`) render them from token values alone.
+> and all three themes (`aurora`, `verde`, `falling-star`) render them from token
+> values alone.
 
 ---
 
@@ -32,7 +33,9 @@ with its own props — there is no shared item or `|`-field syntax (manifesto
 | `id` | slug | optional anchor for linking / directives |
 
 `icon:` props (on nodes, cards, chips…) name a glyph in the deck's `icons` pack
-(e.g. `heroicons-outline`), resolved from the shared icon resource — manifesto §2.
+(default `heroicons-outline` — 580+ glyphs), resolved from the shared icon
+resource (manifesto §2). Append `-solid` for the filled variant: `star` is the
+outline, `star-solid` the filled one.
 
 ---
 
@@ -514,7 +517,7 @@ A named icon from the deck's pack (front-matter `icons:`, default
 `heroicons-outline`). Void — self-closes; inherits the surrounding text colour
 unless `color:` is set. Components with an `icon:` prop (`node`, `card`, `chip`,
 `callout`) take the same names.
-- **Children:** none. **Props:** `name` (e.g. `cog`, `bolt`, `check-circle`), `size` (px, default 28), `color` (token).
+- **Children:** none. **Props:** `name` (e.g. `cog`, `bolt`, `check-circle`; add `-solid` for the filled variant, e.g. `star-solid`), `size` (px, default 28), `color` (token).
 
 ```slidedown
 [icon name:cog size:40 color:accent /]
