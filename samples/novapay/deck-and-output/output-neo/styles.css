@@ -376,6 +376,33 @@ body:has(.slide.dark.active) .brand-logo.dm { display: inline-block; }
 }
 .example strong { color: var(--color-accent-2); }
 
+/* eyebrow */
+/* When a slide contains an eyebrow, switch its inner column to flex so the eyebrow
+   can lift above the title via order:-1 — no DOM reshuffling required, and existing
+   slides without an eyebrow keep the default block layout. */
+.slide .inner:has(.eyebrow) { display: flex; flex-direction: column; align-items: stretch; }
+.slide .inner:has(.eyebrow) .s-title { margin-top: 0; }
+.slide .inner > .eyebrow,
+.slide .inner > .sd-box:has(> .eyebrow) { order: -1; align-self: center; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 18px; border-radius: var(--radius-pill);
+  background: var(--color-card); box-shadow: var(--shadow-sm);
+  font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.eyebrow.tone-accent { color: var(--color-accent); }
+.eyebrow.tone-ink { color: var(--color-ink); }
+.eyebrow .eb-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-accent); flex: none;
+}
+.eyebrow .eb-sep { opacity: .55; font-weight: 500; }
+.eyebrow .eb-idx { color: var(--color-accent); }
+.eyebrow.tone-ink .eb-idx { color: var(--color-ink); opacity: .65; }
+/* On cover/closing slides the inner already centres text — keep alignment consistent */
+.slide.cover .inner:has(.eyebrow), .slide.closing .inner:has(.eyebrow) { align-items: center; }
+
 /* faq */
 .faq { display: grid; gap: 14px; margin-top: 32px; text-align: left; }
 .qa { background: var(--color-card); border-radius: 18px; box-shadow: var(--shadow-sm); padding: 18px 22px; }
@@ -530,6 +557,31 @@ body:has(.slide.dark.active) .brand-logo.dm { display: inline-block; }
   transform: skewX(-18deg); animation: sd-card-sweep 2.6s ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) { .ms-item.animated .ms-box::after { display: none; } }
+
+/* numbered */
+.numbered { display: grid; gap: 22px; margin-top: 32px; text-align: left; }
+.numbered.g2 { grid-template-columns: repeat(2, 1fr); }
+.numbered.g3 { grid-template-columns: repeat(3, 1fr); }
+.numbered.g4 { grid-template-columns: repeat(4, 1fr); }
+.numbered-item {
+  display: flex; gap: 20px; align-items: flex-start;
+  background: var(--color-card); border-radius: var(--radius-card);
+  padding: 24px 28px; box-shadow: var(--shadow-sm);
+}
+.numbered-item .n {
+  flex: none; font-size: clamp(44px, 4.4vw, 72px); font-weight: 700; line-height: 1;
+  color: var(--color-accent);
+  background: var(--gradient-accent); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  min-width: 1ch;
+}
+.numbered-item .body { flex: 1; }
+.numbered-item .body h3 {
+  font-size: clamp(18px, 1.7vw, 23px); font-weight: 600; color: var(--color-ink);
+  margin: 4px 0 8px;
+}
+.numbered-item .body .copy { font-size: clamp(14px, 1.2vw, 16px); color: var(--color-muted); line-height: 1.55; }
+.numbered-item .body .copy p { margin: 0; }
+.numbered-item .body .copy p + p { margin-top: 8px; }
 
 /* panels */
 .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 32px; text-align: left; }

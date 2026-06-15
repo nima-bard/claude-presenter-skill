@@ -1,0 +1,47 @@
+name: numbered
+aliases: [numbered-row, ordered-cards]
+description: A horizontal row of auto-numbered cards — giant accent numeral, then title + body.
+content: parse
+indexed: true
+props:
+  cols:
+    type: enum
+    values: [2, 3, 4]
+    default: 2
+template: |
+  <div class="numbered g{{cols}}">{{{content}}}</div>
+children:
+  item:
+    aliases: [point, entry]
+    content: parse
+    listIcon: check
+    props:
+      title:
+        type: text
+        default: ""
+    template: |
+      <div class="numbered-item"><span class="n">{{i1}}</span><div class="body">{{#title}}<h3>{{{title}}}</h3>{{/title}}<div class="copy">{{{content}}}</div></div></div>
+styles: |
+  .numbered { display: grid; gap: 22px; margin-top: 32px; text-align: left; }
+  .numbered.g2 { grid-template-columns: repeat(2, 1fr); }
+  .numbered.g3 { grid-template-columns: repeat(3, 1fr); }
+  .numbered.g4 { grid-template-columns: repeat(4, 1fr); }
+  .numbered-item {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: var(--color-card); border-radius: var(--radius-card);
+    padding: 24px 28px; box-shadow: var(--shadow-sm);
+  }
+  .numbered-item .n {
+    flex: none; font-size: clamp(44px, 4.4vw, 72px); font-weight: 700; line-height: 1;
+    color: var(--color-accent);
+    background: var(--gradient-accent); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    min-width: 1ch;
+  }
+  .numbered-item .body { flex: 1; }
+  .numbered-item .body h3 {
+    font-size: clamp(18px, 1.7vw, 23px); font-weight: 600; color: var(--color-ink);
+    margin: 4px 0 8px;
+  }
+  .numbered-item .body .copy { font-size: clamp(14px, 1.2vw, 16px); color: var(--color-muted); line-height: 1.55; }
+  .numbered-item .body .copy p { margin: 0; }
+  .numbered-item .body .copy p + p { margin-top: 8px; }

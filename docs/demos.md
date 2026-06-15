@@ -11,7 +11,8 @@ static asset). Navigate with `←` / `→`, `S` for speaker notes, `F` for fulls
 ## The "every component" deck
 
 Source: [`samples/demo/demo.sd`](https://github.com/nima-bard/slidedown/tree/master/samples/demo/demo.sd)
-— exercises every bundled component, recompiled once per theme.
+— exercises all 48 components (including `eyebrow` and `numbered`, the category pill +
+numbered-row pair), recompiled once per theme.
 
 | Theme | Open the deck |
 |---|---|

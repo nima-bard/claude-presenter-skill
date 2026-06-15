@@ -10,7 +10,7 @@ author: Presenter skill
 ---
 
 [@slide title dark glow] Slidedown
-[@subtitle] One language, two themes, forty-five components
+[@subtitle] One language, four themes, forty-eight components
 [@note] This deck exercises every component; in real decks keep one idea per slide. [/@note]
 
 [logo size:20x* align:center /]
@@ -19,8 +19,8 @@ A [text color:accent weight:semibold]forgiving[/text], deterministic language �
 
 [meta]
   - **Author** · Presenter skill
-  - **Components** · 45
-  - **Themes** · aurora · verde
+  - **Components** · 48
+  - **Themes** · aurora · verde · falling-star · neo
 [/meta]
 
 [group align:center]
@@ -64,6 +64,23 @@ A [text color:accent weight:semibold]forgiving[/text], deterministic language �
   [/column]
 [/columns]
 
+[@slide] Two pains, every branch switch
+[@subtitle] An eyebrow tag overhead, a numbered row of cards below
+[@note] Showcases the [eyebrow] category pill above the title and a [numbered] row whose items auto-count. [/@note]
+
+[eyebrow dot index:01]The problem[/eyebrow]
+
+[numbered cols:2]
+  [item title:"Branch switch → redeploy everything"]
+    The new branch needs its services redeployed. Which ones changed? **Nobody knows** — so it's **deploy all**, every time.
+  [/item]
+  [item title:"What is running right now?"]
+    Image tags can be traced back to a commit — **pod by pod**. But nothing answers it **branch-wise**: which feature branch is this cluster on?
+  [/item]
+[/numbered]
+
+[callout tone:key align:center] DevSync removes both — marked with a green ✓ along the way. [/callout]
+
 [@slide dark] Choices — cards
 [@subtitle] One option per card
 
@@ -98,8 +115,8 @@ A [text color:accent weight:semibold]forgiving[/text], deterministic language �
 
 [panels]
   [panel label:Today title:"What we have"]
-    - Two themes, each light & dark
-    - 45 components
+    - Four themes, each light & dark
+    - 48 components
   [/panel]
   [panel label:Next title:"What can come"]
     - More themes
@@ -109,7 +126,7 @@ A [text color:accent weight:semibold]forgiving[/text], deterministic language �
 
 [timeline]
   [phase when:v1 title:Engine] five stages [/phase]
-  [phase when:v2 title:Library state:current animated] 45 components [/phase]
+  [phase when:v2 title:Library state:current animated] 48 components [/phase]
   [phase when:v3 title:More state:future] your ideas [/phase]
 [/timeline]
 
@@ -192,7 +209,7 @@ Decks should be written, not dragged.
 [pricing]
   [plan name:Starter price:Free]
     - One theme
-    - All 45 components
+    - All 48 components
     - Community support
   [/plan]
   [plan name:Team price:"$12" period:"/mo" featured animated badge:Popular]
@@ -372,4 +389,4 @@ Simplicity is the ultimate sophistication.
 Edit · compile · present — the HTML is always generated, never written.
 [/cta]
 
-[text align:center color:muted]Two themes · 45 components · one language.[/text]
+[text align:center color:muted]Four themes · 48 components · one language.[/text]

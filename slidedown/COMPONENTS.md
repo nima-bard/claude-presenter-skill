@@ -19,7 +19,7 @@ Composition is the whole model: a grouping component (`cards`, `flow`, `timeline
 from its **own child components** — there is no `|`-field syntax. Every component also accepts
 the [shared props](#shared-props).
 
-> All 46 components are implemented (one `components/<name>/component.yaml` each), plus the
+> All 48 components are implemented (one `components/<name>/component.yaml` each), plus the
 > `@slide` / `@subtitle` / `@note` / `@instruction` directives. `samples/demo/demo.sd` exercises
 > every one, and all four themes (`aurora`, `verde`, `falling-star`, `neo`) render them from
 > token values alone.
@@ -130,6 +130,23 @@ Decks should be written, not dragged.
 [/statement]
 ```
 
+### eyebrow
+
+A small category pill above the slide title — the section label and an optional index, like
+`● THE PROBLEM · 01`. Place it as the first body element of the slide; it lifts itself above
+the title automatically (the slide's inner column flips to flex layout only when an eyebrow
+is present, so other slides are untouched).
+
+- **Aliases:** `kicker` · `category`
+- **Content:** the label (e.g. `The problem`).
+- **Props:** `index` (the trailing figure, e.g. `01`) · `dot` (flag — show a leading accent dot) · `tone` (`accent` default / `ink`)
+
+```slidedown
+[@slide] Two pains, every branch switch
+
+[eyebrow dot index:01] The problem [/eyebrow]
+```
+
 ---
 
 ## Process & flow
@@ -162,6 +179,27 @@ An auto-numbered vertical list (numbered by order).
   [step title:"Brief the skill"] Audience, duration, theme, subject. [/step]
   [step title:"It writes the deck"] Your content, in the language. [/step]
 [/steps]
+```
+
+### numbered
+
+An auto-numbered **horizontal** row of cards — each item has a giant accent numeral on the
+left and a title + body on the right. The horizontal companion to `steps`; pair with `cards`
+when the items should read in order (1, 2, 3) rather than as parallel options.
+
+- **Aliases:** `numbered-row` · `ordered-cards`
+- **Props:** `cols` (`2` default / `3` / `4`)
+- **Children:** `item` (aliases `point`, `entry`) — content is the body (Markdown). Props: `title`.
+
+```slidedown
+[numbered cols:2]
+  [item title:"Branch switch → redeploy everything"]
+    Which services changed? **Nobody knows** — so it's deploy all, every time.
+  [/item]
+  [item title:"What is running right now?"]
+    Image tags trace back to a commit, but nothing answers it **branch-wise**.
+  [/item]
+[/numbered]
 ```
 
 ### cycle
@@ -794,8 +832,8 @@ A directive to the authoring tool — never rendered. The build **refuses to fin
 | Group | Components | Children |
 |---|---|---|
 | Text & emphasis | `text` | — |
-| Callouts & statements | `callout` · `quote` · `chips` · `cta` · `statement` | `chip` |
-| Process & flow | `flow` · `steps` · `cycle` · `timeline` · `milestones` | `node` · `step` · `stage` · `phase` · `milestone` |
+| Callouts & statements | `callout` · `quote` · `chips` · `cta` · `statement` · `eyebrow` | `chip` |
+| Process & flow | `flow` · `steps` · `numbered` · `cycle` · `timeline` · `milestones` | `node` · `step` · `item` · `stage` · `phase` · `milestone` |
 | Grids, groups & comparison | `cards` · `panels` · `checks` · `versus` · `pricing` · `pyramid` · `architecture` | `card` · `panel` · `check` · `side` · `plan` · `layer` · `tier` · `box` |
 | People & FAQ | `team` · `faq` | `person` · `qa` |
 | Numbers & metrics | `metrics` · `bars` · `split` · `badge` · `gauge` · `delta` · `scorecard` · `status` | `metric` · `bar` · `dial` · `kpi` · `item` |
