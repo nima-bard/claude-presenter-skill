@@ -3,8 +3,10 @@
    one optional <aside class="speaker-notes"> per slide. Optional chrome, wired
    by id when present: #prev #next #dots #cur #total #bar #hint #remote.
    Keys: arrows/space/PgUp/PgDn/Home/End navigate · S notes panel · F fullscreen ·
-   R speaker remote. The remote (remote.html, next to this file) talks over
-   postMessage and reconnects on its own if either window reloads.
+   R speaker remote. Touch: a horizontal swipe flips slides (left→next,
+   right→prev); vertical drags are left alone so content still scrolls.
+   The remote (remote.html, next to this file) talks over postMessage and
+   reconnects on its own if either window reloads.
 
    anim mode: slides are stacked and changes play a transition (fade or slide).
    The deck's data-transition is the default; a slide's own data-transition is
@@ -214,6 +216,25 @@
     else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
     else if (e.key === 'r' || e.key === 'R') openRemote();
   });
+
+  /* ---- touch swipe (mobile): a horizontal drag flips slides ---- */
+  (function () {
+    var x0 = 0, y0 = 0, live = false;
+    var MIN_X = 45; // px of horizontal travel before a drag counts as a swipe
+    deck.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { live = false; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; live = true;
+    }, { passive: true });
+    deck.addEventListener('touchend', function (e) {
+      if (!live) return;
+      live = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < MIN_X) return;          // too small — a tap or jitter
+      if (Math.abs(dx) <= Math.abs(dy)) return;  // mostly vertical — let it scroll
+      go(dx < 0 ? current + 1 : current - 1);    // drag left → next, right → prev
+    }, { passive: true });
+  })();
 
   setActive(0);
 })();
