@@ -22,12 +22,14 @@ plus the compiled `decks/<slug>/build/index.html`.
 ## Use it from anywhere (global install)
 
 ```bash
-./scripts/install.sh claude     # registers ~/.claude/skills/slidedown/ pointing at this clone
+./scripts/install.sh claude     # symlinks ~/.claude/skills/slidedown → this clone's skill
 ```
 
-This installs a small global skill that points Claude at this clone's engine and docs, so
-you can run `/slidedown` from any project. (It compiles with the `slidedown` CLI — install
-that too with `./scripts/install.sh cli`, or run `./scripts/install.sh` to do everything.)
+The full skill (the same `SKILL.md` Claude Code reads inside this clone) is exposed at the
+user-level path `~/.claude/skills/slidedown`, so `/slidedown` works from any project. The
+symlink targets `<this-clone>/.claude/skills/slidedown`, so edits to the in-repo skill flow
+through automatically. (Compilation goes through the `slidedown` CLI — install that too with
+`./scripts/install.sh cli`, or run `./scripts/install.sh` to do everything.)
 
 ## How it works
 

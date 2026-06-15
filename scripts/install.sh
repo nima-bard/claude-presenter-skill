@@ -73,11 +73,19 @@ EOF
 }
 
 install_claude() {
-  mkdir -p "$CLAUDE_SKILL_DIR"
-  { echo "---"; echo "name: slidedown"; \
-    echo "description: Generate a presentation as a Slidedown (.sd) deck and compile it to a static HTML deck using the engine at $REPO_ROOT. Use when asked to build slides, a deck, a talk, a readout, or to 'present' something."; \
-    echo "---"; echo; pointer_body; } > "$CLAUDE_SKILL_DIR/SKILL.md"
-  ok "registered the Claude Code skill → $CLAUDE_SKILL_DIR/SKILL.md  ${c_dim}(invoke with /slidedown)${c_reset}"
+  local src="$REPO_ROOT/.claude/skills/slidedown"
+  if [ ! -f "$src/SKILL.md" ]; then
+    echo "${c_bold}Claude skill source missing${c_reset}: $src/SKILL.md" >&2
+    exit 1
+  fi
+  mkdir -p "$(dirname "$CLAUDE_SKILL_DIR")"
+  # If a previous install left a regular directory (the old pointer-stub layout), clear it
+  # so we can drop a symlink in its place. Symlinks and broken symlinks get -f handling.
+  if [ -e "$CLAUDE_SKILL_DIR" ] && [ ! -L "$CLAUDE_SKILL_DIR" ]; then
+    rm -rf "$CLAUDE_SKILL_DIR"
+  fi
+  ln -sfn "$src" "$CLAUDE_SKILL_DIR"
+  ok "installed the Claude Code skill → $CLAUDE_SKILL_DIR  ${c_dim}(symlink → $src; invoke with /slidedown)${c_reset}"
 }
 
 install_codex() {
@@ -88,7 +96,12 @@ install_codex() {
 
 uninstall() {
   rm -f "$BIN_DIR/slidedown" && info "removed $BIN_DIR/slidedown" || true
-  rm -rf "$CLAUDE_SKILL_DIR" && info "removed $CLAUDE_SKILL_DIR" || true
+  # The skill is now a symlink, but older installs left a real directory — handle both.
+  if [ -L "$CLAUDE_SKILL_DIR" ]; then
+    rm -f "$CLAUDE_SKILL_DIR" && info "removed symlink $CLAUDE_SKILL_DIR" || true
+  elif [ -d "$CLAUDE_SKILL_DIR" ]; then
+    rm -rf "$CLAUDE_SKILL_DIR" && info "removed $CLAUDE_SKILL_DIR" || true
+  fi
   rm -f "$CODEX_PROMPT_DIR/slidedown.md" && info "removed $CODEX_PROMPT_DIR/slidedown.md" || true
   echo "${c_green}Uninstalled.${c_reset}"
   exit 0
