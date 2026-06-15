@@ -4,6 +4,8 @@
 deterministic, **zero-dependency** compiler turns it into a polished, self-contained HTML
 deck — themed, animated, presentable. The same input always produces the same output.
 
+**🎬 [Live demos](demos.md) — see every theme running in your browser.**
+
 ```slidedown
 ---
 title: Payment links — what shipped
@@ -37,6 +39,7 @@ theme: neo
 <div class="grid cards" markdown>
 
 - :material-rocket-launch: **[Getting started](getting-started.md)** — install and compile your first deck.
+- :material-play-circle: **[Live demos](demos.md)** — every theme, every component, in your browser.
 - :material-book-open-variant: **[The language](reference/manifesto.md)** — document anatomy, slides, components, tokens.
 - :material-shape: **[Components](reference/components.md)** — every building block and its props.
 - :material-palette: **[Themes](themes.md)** — the bundled looks and the accent override.

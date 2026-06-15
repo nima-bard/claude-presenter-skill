@@ -4,6 +4,8 @@
 zero-dependency compiler turns it into a polished, self-contained HTML deck — themed,
 animated, presentable. Same input always produces the same output.
 
+**🎬 [Live demos](https://nima-bard.github.io/slidedown/demos/) — see every theme running in your browser.**
+
 📖 **Documentation:** <https://nima-bard.github.io/slidedown/>
 
 ```slidedown

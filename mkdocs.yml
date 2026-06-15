@@ -44,6 +44,7 @@ theme:
 nav:
   - Home: index.md
   - Getting started: getting-started.md
+  - Live demos: demos.md
   - Authoring:
       - Language: reference/manifesto.md
       - Components: reference/components.md

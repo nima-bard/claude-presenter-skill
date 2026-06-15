@@ -8,6 +8,7 @@ on:
     branches: [master]
     paths:
       - docs/**
+      - samples/**
       - slidedown/MANIFESTO.md
       - slidedown/COMPONENTS.md
       - CONTRIBUTING.md
